@@ -20651,3 +20651,59 @@ Consider defining a bean of type 'com.revature.services.FlightService' in your c
 2023-10-07 11:54:08 INFO  EndpointLinksResolver:58 - Exposing 5 endpoint(s) beneath base path '/actuator'
 2023-10-07 11:54:09 INFO  NettyWebServer:111 - Netty started on port 8080
 2023-10-07 11:54:09 INFO  AirlineSpringAPI:61 - Started AirlineSpringAPI in 22.257 seconds (JVM running for 24.571)
+2023-10-09 09:02:22 DEBUG RestartClassLoader:85 - Created RestartClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@337f32e7
+2023-10-09 09:02:22 TRACE SpringFactoriesLoader:103 - Loaded [org.springframework.boot.logging.LoggingSystemFactory] names: [org.springframework.boot.logging.logback.LogbackLoggingSystem.Factory, org.springframework.boot.logging.log4j2.Log4J2LoggingSystem.Factory, org.springframework.boot.logging.java.JavaLoggingSystem.Factory]
+2023-10-09 09:02:23 INFO  AirlineSpringAPI:55 - Starting AirlineSpringAPI using Java 1.8.0_291 on DESKTOP-DRMHG43 with PID 14252 (C:\Users\Quentin\Documents\Revature\AirlineSpringAPI\target\classes started by Quentin in C:\Users\Quentin\Documents\Revature\AirlineSpringAPI)
+2023-10-09 09:02:23 DEBUG AirlineSpringAPI:56 - Running with Spring Boot v2.7.16, Spring v5.3.30
+2023-10-09 09:02:23 INFO  AirlineSpringAPI:631 - No active profile set, falling back to 1 default profile: "default"
+2023-10-09 09:02:23 INFO  DevToolsPropertyDefaultsPostProcessor:255 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-09 09:02:23 INFO  DevToolsPropertyDefaultsPostProcessor:255 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-09 09:02:25 INFO  RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2023-10-09 09:02:26 INFO  RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 395 ms. Found 2 Reactive Cassandra repository interfaces.
+2023-10-09 09:02:26 INFO  RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2023-10-09 09:02:26 INFO  RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 11 ms. Found 0 Cassandra repository interfaces.
+2023-10-09 09:02:27 DEBUG Loggers:254 - Using Slf4j logging framework
+2023-10-09 09:02:28 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:23 - Method with signature: CqlSessionFactoryBean com.revature.utils.CassandraUtil.session()
+2023-10-09 09:02:28 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:24 - With arguments: []
+2023-10-09 09:02:28 TRACE CassandraUtil:31 - Establishing connection with Cassandra
+2023-10-09 09:02:28 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:31 - Method returning with: org.springframework.data.cassandra.config.CqlSessionFactoryBean@7e65eda8
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:23 - Method with signature: CassandraMappingContext com.revature.utils.CassandraUtil.mappingContext()
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:24 - With arguments: []
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:31 - Method returning with: org.springframework.data.cassandra.core.mapping.CassandraMappingContext@38087485
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:23 - Method with signature: CassandraConverter com.revature.utils.CassandraUtil.converter(CassandraMappingContext)
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:24 - With arguments: [org.springframework.data.cassandra.core.mapping.CassandraMappingContext@38087485]
+2023-10-09 09:02:40 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:31 - Method returning with: org.springframework.data.cassandra.core.convert.MappingCassandraConverter@290fd72c
+2023-10-09 09:02:41 DEBUG InternalLoggerFactory:59 - Using SLF4J as the default logging framework
+2023-10-09 09:02:41 INFO  OptionalLiveReloadServer:59 - LiveReload server is running on port 35729
+2023-10-09 09:02:41 TRACE UserRouter$$EnhancerBySpringCGLIB$$55694a07:23 - Method with signature: RouterFunction com.revature.controllers.UserRouter.routerFunction()
+2023-10-09 09:02:41 TRACE UserRouter$$EnhancerBySpringCGLIB$$55694a07:24 - With arguments: []
+2023-10-09 09:02:41 TRACE UserRouter$$EnhancerBySpringCGLIB$$55694a07:31 - Method returning with: (GET && /airline/users) -> com.revature.controllers.UserRouter$$Lambda$1033/1190510699@2ba1695b
+(GET && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1039/1616458726@d2bd6e
+(POST && /airline/users) -> com.revature.controllers.UserRouter$$Lambda$1040/1660066097@6234f90e
+(POST && /airline/users/login) -> com.revature.controllers.UserRouter$$Lambda$1041/265528155@2dbc89eb
+(POST && /airline/users/logout) -> com.revature.controllers.UserRouter$$Lambda$1042/854022982@df7c6b6
+(PUT && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1043/461932799@185b33ab
+(DELETE && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1044/1833279918@5de25527
+2023-10-09 09:02:41 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:23 - Method with signature: SessionFactoryFactoryBean com.revature.utils.CassandraUtil.sessionFactory(CqlSession,CassandraConverter)
+2023-10-09 09:02:41 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:24 - With arguments: [com.datastax.oss.driver.internal.core.session.DefaultSession@68d86f1e, org.springframework.data.cassandra.core.convert.MappingCassandraConverter@290fd72c]
+2023-10-09 09:02:41 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:31 - Method returning with: org.springframework.data.cassandra.config.SessionFactoryFactoryBean@34e46477
+2023-10-09 09:02:42 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:23 - Method with signature: CassandraOperations com.revature.utils.CassandraUtil.cassandraTemplate(SessionFactory,CassandraConverter)
+2023-10-09 09:02:42 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:24 - With arguments: [org.springframework.data.cassandra.core.cql.session.DefaultSessionFactory@1f2103cc, org.springframework.data.cassandra.core.convert.MappingCassandraConverter@290fd72c]
+2023-10-09 09:02:42 TRACE CassandraUtil$$EnhancerBySpringCGLIB$$711e504b:31 - Method returning with: org.springframework.data.cassandra.core.CassandraTemplate@6389a947
+2023-10-09 09:02:43 DEBUG Mappings:131 - Mapped (GET && /airline/users) -> com.revature.controllers.UserRouter$$Lambda$1033/1190510699@2ba1695b
+(GET && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1039/1616458726@d2bd6e
+(POST && /airline/users) -> com.revature.controllers.UserRouter$$Lambda$1040/1660066097@6234f90e
+(POST && /airline/users/login) -> com.revature.controllers.UserRouter$$Lambda$1041/265528155@2dbc89eb
+(POST && /airline/users/logout) -> com.revature.controllers.UserRouter$$Lambda$1042/854022982@df7c6b6
+(PUT && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1043/461932799@185b33ab
+(DELETE && /airline/users/{username}) -> com.revature.controllers.UserRouter$$Lambda$1044/1833279918@5de25527
+2023-10-09 09:02:43 DEBUG Mappings:167 - 'resourceHandlerMapping' {/webjars/**=ResourceWebHandler [classpath [META-INF/resources/webjars/]], /**=ResourceWebHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/]]}
+2023-10-09 09:02:43 INFO  EndpointLinksResolver:58 - Exposing 5 endpoint(s) beneath base path '/actuator'
+2023-10-09 09:02:43 INFO  NettyWebServer:111 - Netty started on port 8080
+2023-10-09 09:02:44 INFO  AirlineSpringAPI:61 - Started AirlineSpringAPI in 21.546 seconds (JVM running for 24.501)
+2023-10-09 09:03:28 TRACE UserHandler:23 - Method with signature: Mono com.revature.services.UserHandler.findAll(ServerRequest)
+2023-10-09 09:03:28 TRACE UserHandler:24 - With arguments: [HTTP GET /airline/users]
+2023-10-09 09:03:28 TRACE $Proxy134:23 - Method with signature: Flux org.springframework.data.repository.reactive.ReactiveCrudRepository.findAll()
+2023-10-09 09:03:28 TRACE $Proxy134:24 - With arguments: []
+2023-10-09 09:03:28 TRACE $Proxy134:31 - Method returning with: FluxUsingWhen
+2023-10-09 09:03:28 TRACE UserHandler:31 - Method returning with: MonoMapFuseable
