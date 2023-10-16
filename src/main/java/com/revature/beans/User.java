@@ -1,15 +1,12 @@
 package com.revature.beans;
 
+import com.revature.constants.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,6 @@ public class User {
 	@Column("last_name")
 	private String lastName;
 
-	@NotEmpty
 	private String email;
 
 	private String password;
@@ -38,11 +34,11 @@ public class User {
 	@Column("frequent_flyer_miles")
 	private int frequentFlyerMiles;
 
-	private List<Reservation> reservations;
+	private List<String> reservations;
 
 	public User() {
 		super();
-		this.type = UserType.USER;
+		this.type = UserType.PASSENGER;
 		this.reservations = new ArrayList<>();
 	}
 

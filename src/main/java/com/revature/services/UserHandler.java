@@ -38,7 +38,7 @@ public class UserHandler {
     // Add new User:
     public Mono<ServerResponse> addUser(ServerRequest request) {
 
-        Mono<User> newUserMono = request.bodyToMono(UserDto.class).map(userDto -> userDto.toUser());
+        Mono<User> newUserMono = request.bodyToMono(UserDto.class).map(userDto -> userDto.getUser());
         return newUserMono.flatMap(newUser -> ServerResponse.status(HttpStatus.CREATED)
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(userRepository.save(newUser), UserDto.class));
@@ -63,7 +63,7 @@ public class UserHandler {
     public Mono<ServerResponse> logout(ServerRequest request) {
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(Mono.just("User logged out."), String.class);
     }
-
+    
     // Update User:
     public Mono<ServerResponse> updateUser(ServerRequest request) {
         String username = request.pathVariable("username");

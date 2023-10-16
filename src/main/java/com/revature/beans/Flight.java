@@ -1,60 +1,103 @@
 package com.revature.beans;
 
+import com.revature.constants.AircraftType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.io.Serializable;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 @Data
-public class Flight implements Serializable{
-
+@AllArgsConstructor
+@Table
+public class Flight {
+	// Q: Is it better to filter results in the code rather than in the database?
+	// A: It depends on the size of the data. If the data is small, it is better to filter in the code.
+	// Q: What would be considered a small amount of data?
+	// A: A small amount of data would be less than 1000 rows.
+	@PrimaryKeyColumn(
+			name = "airline",
+			ordinal = 0,
+			type = PrimaryKeyType.PARTITIONED)
 	private String airline;
-	private int flightNumber;
+
+	@PrimaryKeyColumn(
+			name = "origin",
+			ordinal = 1,
+			type = PrimaryKeyType.CLUSTERED)
 	private String origin;
+
+	@PrimaryKeyColumn(
+			name = "flight_number",
+			ordinal = 2,
+			type = PrimaryKeyType.CLUSTERED)
+	private int flightNumber;
+
 	private String destination;
-	private LocalTime departureTime;
-	private LocalTime arrivalTime;
-	private int businessCapacity;
-	private int mainCapacity;
+
+	@Column("departure_time")
+	private LocalDateTime departureTime;
+
+	@Column("arrival_time")
+	private LocalDateTime arrivalTime;
+
+	@Column("estimated_departure_time")
+	private LocalDateTime estimatedDepartureTime;
+
+	@Column("estimated_arrival_time")
+	private LocalDateTime estimatedArrivalTime;
+
 	private int miles;
-	private SortedSet<String> availableBusinessSeats;
-	private SortedSet<String> availableMainSeats;
-	private List<User> users;
-	
+
+	private boolean international;
+
+	@Column("business_capacity")
+	private int businessCapacity;
+
+	@Column("main_capacity")
+	private int mainCapacity;
+
+	@Column("business_availability")
+	private int businessAvailability;
+
+	@Column("main_availability")
+	private int mainCabinAvailability;
+
+	@Column("business_seat_map")
+	private Map<String, String> businessSeatMap;
+
+	@Column("main_seat_map")
+	private Map<String, String> mainCabinSeatMap;
+
+	@Column("aircraft_type")
+	private AircraftType aircraftType;
+
 	public Flight() {
 		super();
-		this.businessCapacity = 9;
-		this.mainCapacity = 40;
-		this.users = new ArrayList<>();
-		
-		this.availableBusinessSeats = new TreeSet<>();
-		char[] businessColumns = {'A', 'C', 'D'};
-		for (int row = 1; row < 4; row++) {
-			for (char letter : businessColumns) {
-				this.availableBusinessSeats.add("" + row + letter);
-			}
-		}
-		
-		this.availableMainSeats = new TreeSet<>();
-		char[] mainColumns = {'A', 'C', 'D', 'F'};
-		for (int row = 1; row < 11; row++) {
-			for (char letter : mainColumns) {
-				this.availableMainSeats.add("" + row + letter);
-			}
-		}
+		this.businessSeatMap = new HashMap<>();
+		this.mainCabinSeatMap = new HashMap<>();
 	}
-	
-	public Flight(int flightNumber, String origin, String destination, LocalTime departureTime, LocalTime arrivalTime, int miles) {
-		this();
-		this.flightNumber = flightNumber;
+
+	public Flight(String airline, String origin, int flightNumber, String destination, LocalDateTime departureTime,
+			LocalDateTime arrivalTime, int miles, AircraftType aircraftType) {
+		super();
+		this.airline = airline;
 		this.origin = origin;
+		this.flightNumber = flightNumber;
 		this.destination = destination;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
+		this.estimatedDepartureTime = departureTime;
+		this.estimatedArrivalTime = arrivalTime;
 		this.miles = miles;
+		this.aircraftType = aircraftType;
 	}
 }

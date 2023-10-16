@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<!-- Since Spring Boot uses log4j 1 by default, we have to get rid of 
+			<!-- Since Spring Boot uses log4j 1 by default, we have to get rid of
 				it. -->
 			<exclusions>
 				<exclusion>

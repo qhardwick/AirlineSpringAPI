@@ -4,11 +4,12 @@ import com.revature.services.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-@Configuration
+@Configuration("userRouter")
 public class UserRouter {
 
     private UserHandler userHandler;
@@ -19,7 +20,7 @@ public class UserRouter {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction() {
+    public RouterFunction<ServerResponse> userRouterFunction() {
         return RouterFunctions.route()
                 // Find all Users:
                 .GET("/airline/users", request -> userHandler.findAll(request))
@@ -43,7 +44,5 @@ public class UserRouter {
                 .DELETE("/airline/users/{username}", request -> userHandler.deleteUser(request))
 
                 .build();
-
-
     }
 }

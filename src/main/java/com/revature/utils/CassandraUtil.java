@@ -19,6 +19,7 @@ import org.springframework.data.cassandra.repository.config.EnableReactiveCassan
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 
+
 @Configuration
 @EnableReactiveCassandraRepositories(basePackages = {"com.revature.repositories"})
 public class CassandraUtil {
@@ -42,7 +43,7 @@ public class CassandraUtil {
 		((MappingCassandraConverter) converter).setUserTypeResolver(new SimpleUserTypeResolver(session));
 		sessionFactory.setSession(session);
 		sessionFactory.setConverter(converter);
-		// Prevents tables from dropping
+		// Configure the session factory to create tables automatically. Set to NONE if table creation is to be done manually.
 		sessionFactory.setSchemaAction(SchemaAction.NONE);
 		
 		return sessionFactory;

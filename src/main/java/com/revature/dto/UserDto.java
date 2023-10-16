@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.revature.beans.Reservation;
 import com.revature.beans.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import com.revature.beans.UserType;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.revature.constants.UserType;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -46,10 +43,10 @@ public class UserDto {
 
 	private int frequentFlyerMiles;
 
-	private List<Reservation> reservations;
+	private List<String> reservations;
 
 	public UserDto() {
-		this.type = UserType.USER;
+		this.type = UserType.PASSENGER;
 		this.reservations = new ArrayList<>();
 	}
 
@@ -66,7 +63,7 @@ public class UserDto {
 	}
 
 	// Convert from UserDto to User
-	public User toUser() {
+	public User getUser() {
 		User user = new User();
 		user.setUsername(this.username);
 		user.setFirstName(this.firstName);
