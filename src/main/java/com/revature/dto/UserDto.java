@@ -3,6 +3,7 @@ package com.revature.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.beans.User;
 import lombok.AllArgsConstructor;
@@ -63,6 +64,7 @@ public class UserDto {
 	}
 
 	// Convert from UserDto to User
+	@JsonIgnore
 	public User getUser() {
 		User user = new User();
 		user.setUsername(this.username);

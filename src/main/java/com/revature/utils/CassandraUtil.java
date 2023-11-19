@@ -44,7 +44,7 @@ public class CassandraUtil {
 		sessionFactory.setSession(session);
 		sessionFactory.setConverter(converter);
 		// Configure the session factory to create tables automatically. Set to NONE if table creation is to be done manually.
-		sessionFactory.setSchemaAction(SchemaAction.NONE);
+		sessionFactory.setSchemaAction(SchemaAction.CREATE_IF_NOT_EXISTS);
 		
 		return sessionFactory;
 	}

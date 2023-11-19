@@ -1,9 +1,10 @@
 package com.revature.services;
 
 import com.revature.beans.Flight;
+import com.revature.beans.User;
 import com.revature.dto.FlightDto;
+import com.revature.dto.UserDto;
 import com.revature.repositories.FlightRepository;
-import javafx.beans.property.adapter.JavaBeanBooleanPropertyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -27,8 +29,8 @@ public class FlightHandler {
     // Add new Flight:
     @Valid
     public Mono<ServerResponse> addFlight(ServerRequest request) {
-        Mono<Flight> flightMono = request.bodyToMono(FlightDto.class).map(FlightDto::getFlight);
-        return ServerResponse.ok().body(flightRepository.saveAll(flightMono), FlightDto.class);
+        Mono<Flight> userMono = request.bodyToMono(FlightDto.class).map(FlightDto::getFlight);
+        return ServerResponse.created(URI.create("/airline/flights/")).body(flightRepository.saveAll(userMono), UserDto.class);
     }
 
 

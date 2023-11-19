@@ -1,11 +1,11 @@
 package com.revature.dto;
 
 import com.revature.beans.Reservation;
-import com.revature.beans.Segment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -26,22 +26,26 @@ public class ReservationDto {
 
     @NotEmpty
     @Size(min = 1)
-    private List<Segment> itinerary;
+    private List<String> flights;
+
+    @Min(1)
+    private int seats;
 
     public ReservationDto() {
         super();
         this.passengers = new ArrayList<>();
-        this.itinerary = new ArrayList<>();
+        this.flights = new ArrayList<>();
     }
 
     public ReservationDto(Reservation reservation) {
         this();
         this.PNR = reservation.getPNR();
         this.passengers = reservation.getPassengers();
-        this.itinerary = reservation.getItinerary();
+        this.flights = reservation.getFlights();
+        this.seats = this.passengers.size();
     }
 
     public Reservation getReservation() {
-        return new Reservation(this.PNR, this.passengers, this.itinerary);
+        return new Reservation(this.PNR, this.passengers, this.flights, this.passengers.size());
     }
 }

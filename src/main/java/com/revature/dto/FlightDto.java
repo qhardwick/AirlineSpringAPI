@@ -1,24 +1,26 @@
 package com.revature.dto;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.constants.AircraftType;
 import com.revature.beans.Flight;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.RegEx;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Data
-@AllArgsConstructor
 @Valid
 public class FlightDto {
+
+	private UUID id;
 
 	@NotEmpty
 	@Size(min = 2, max = 2)
@@ -37,21 +39,19 @@ public class FlightDto {
 	@Size(min = 3, max = 3)
 	private String destination;
 
-	@NotNull
-	@FutureOrPresent
-	private LocalDateTime departureTime;
+	@NotEmpty
+	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
+	private String departureTime;
 
-	@NotNull
-	@FutureOrPresent
-	private LocalDateTime arrivalTime;
+	@NotEmpty
+	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
+	private String arrivalTime;
 
-	@NotNull
-	@FutureOrPresent
-	private LocalDateTime estimatedDepartureTime;
+	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
+	private String estimatedDepartureTime;
 
-	@NotNull
-	@FutureOrPresent
-	private LocalDateTime estimatedArrivalTime;
+	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
+	private String estimatedArrivalTime;
 
 	@Min(0)
 	private int miles;
@@ -79,20 +79,43 @@ public class FlightDto {
 
 	public FlightDto() {
 		super();
+		this.id = UUID.randomUUID();
 		this.businessSeatMap = new HashMap<>();
 		this.mainCabinSeatMap = new HashMap<>();
 	}
 
+	public FlightDto(String airline, String origin, int flightNumber, String destination,
+			String departureTime, String arrivalTime, int miles, boolean international, int businessCapacity,
+			int mainCapacity, AircraftType aircraftType) {
+		this();
+		this.airline = airline;
+		this.origin = origin;
+		this.flightNumber = flightNumber;
+		this.destination = destination;
+		this.departureTime = departureTime;
+		this.arrivalTime = arrivalTime;
+		this.estimatedDepartureTime = departureTime;
+		this.estimatedArrivalTime = arrivalTime;
+		this.miles = miles;
+		this.international = international;
+		this.businessCapacity = businessCapacity;
+		this.mainCapacity = mainCapacity;
+		this.businessAvailability = businessCapacity;
+		this.mainAvailability = mainCapacity;
+		this.aircraftType = aircraftType;
+	}
+
 	public FlightDto(Flight flight) {
 		this();
+		this.id = flight.getId();
 		this.airline = flight.getAirline();
 		this.origin = flight.getOrigin();
 		this.flightNumber = flight.getFlightNumber();
 		this.destination = flight.getDestination();
-		this.departureTime = flight.getDepartureTime();
-		this.arrivalTime = flight.getArrivalTime();
-		this.estimatedDepartureTime = flight.getEstimatedDepartureTime();
-		this.estimatedArrivalTime = flight.getEstimatedArrivalTime();
+		this.departureTime = flight.getDepartureTime().toString();
+		this.arrivalTime = flight.getArrivalTime().toString();
+		this.estimatedDepartureTime = flight.getEstimatedDepartureTime().toString();
+		this.estimatedArrivalTime = flight.getEstimatedArrivalTime().toString();
 		this.miles = flight.getMiles();
 		this.international = flight.isInternational();
 		this.businessCapacity = flight.getBusinessCapacity();
@@ -104,16 +127,18 @@ public class FlightDto {
 		this.aircraftType = flight.getAircraftType();
 	}
 
+	@JsonIgnore
 	public Flight getFlight() {
 		Flight flight = new Flight();
-		flight.setAirline(this.airline);
-		flight.setOrigin(this.origin);
+		flight.setId(this.id);
+		flight.setAirline(this.airline.toUpperCase());
+		flight.setOrigin(this.origin.toUpperCase());
 		flight.setFlightNumber(this.flightNumber);
-		flight.setDestination(this.destination);
-		flight.setDepartureTime(this.departureTime);
-		flight.setArrivalTime(this.arrivalTime);
-		flight.setEstimatedDepartureTime(this.estimatedDepartureTime);
-		flight.setEstimatedArrivalTime(this.estimatedArrivalTime);
+		flight.setDestination(this.destination.toUpperCase());
+		flight.setDepartureTime(LocalTime.parse(this.departureTime, DateTimeFormatter.ofPattern("HH:mm")));
+		flight.setArrivalTime(LocalTime.parse(this.arrivalTime, DateTimeFormatter.ofPattern("HH:mm")));
+		flight.setEstimatedDepartureTime(LocalTime.parse(this.estimatedDepartureTime, DateTimeFormatter.ofPattern("HH:mm")));
+		flight.setEstimatedArrivalTime(LocalTime.parse(this.estimatedArrivalTime, DateTimeFormatter.ofPattern("HH:mm")));
 		flight.setMiles(this.miles);
 		flight.setInternational(this.international);
 		flight.setBusinessCapacity(this.businessCapacity);

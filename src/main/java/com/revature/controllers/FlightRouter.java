@@ -24,27 +24,27 @@ public class FlightRouter {
         return RouterFunctions.route()
 
                 // Add new Flight:
-                .POST("/flights", request -> flightHandler.addFlight(request))
+                .POST("/airline/flights", request -> flightHandler.addFlight(request))
 
                 // Find all Flights:
-                .GET("/flights", request -> flightHandler.findAll(request))
+                .GET("/airline/flights", request -> flightHandler.findAll(request))
 
                 // Find flight by airline, flight number, and origin:
-                .GET("/flights/{origin}/{airline}/{flightNumber}",
+                .GET("/airline/flights/{origin}/{airline}/{flightNumber}",
                         request -> flightHandler.findByAirlineAndOriginAndFlightNumber(request))
 
                 // Find all Flights departing from an airport on a specific date:
-                .GET("/flights/{origin}/{date}", request -> flightHandler.findByOriginAndDepartureDate(request))
+                .GET("/airline/flights/{origin}/{date}", request -> flightHandler.findByOriginAndDepartureDate(request))
 
                 // Find all Flights from an Origin to a Destination on a specific date:
-                .GET("/flights/{origin}/{destination}/{date}",
+                .GET("/airline/flights/{origin}/{destination}/{date}",
                         request -> flightHandler.findAllByOriginAndDestinationAndDepartureDate(request))
 
                 // Update Flight:
-                .PUT("/flights/{origin}/{airline}/{flightNumber}", request -> flightHandler.updateFlight(request))
+                .PUT("/airline/flights/{origin}/{airline}/{flightNumber}", request -> flightHandler.updateFlight(request))
 
                 // Delete Flight:
-                .DELETE("/flights/{origin}/{airline}/{flightNumber}", request -> flightHandler.deleteFlight(request))
+                .DELETE("/airline/flights/{origin}/{airline}/{flightNumber}", request -> flightHandler.deleteFlight(request))
 
 
                 .build();

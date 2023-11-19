@@ -3,11 +3,11 @@
 ## User Stories
 
 * **As a User I can register for an account**
-* **As a User I can log in**
-* **As a User I can log out**
-* **As a User, I can view all Flights in the system**
-* **As a User I can view all available Flights by Origin city**
-* **As a User I can view all available Flights from an Origin to a Destination city**
+* **As a User, I can delete my account**
+* As a User I can log in
+* As a User I can log out
+* As a User I can view all available Flights by Origin city
+* As a User I can view all available Flights from an Origin to a Destination city
 * As a Passenger I can book a Main Cabin seat on a Flight
 * As a Passenger I can book a Business Class seat on a Flight
 * As a Passenger I can pay to check luggage in the Main Cabin

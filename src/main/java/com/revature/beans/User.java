@@ -7,6 +7,7 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class User {
 	private String username;
 
 	@Column("first_name")
+	@NotEmpty
 	private String firstName;
 
 	@Column("last_name")

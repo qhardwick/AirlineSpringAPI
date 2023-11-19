@@ -15,7 +15,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table("Airport")
 public class Airport {
 
     @PrimaryKeyColumn(

@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table("Airline")
 public class Airline {
 
     @PrimaryKeyColumn(

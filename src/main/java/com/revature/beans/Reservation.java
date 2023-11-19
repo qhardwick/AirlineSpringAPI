@@ -16,12 +16,13 @@ public class Reservation {
     @PrimaryKey
     private String PNR;
     private List<String> passengers;
-    private List<Segment> itinerary;
+    private List<String> flights;
+    private int seats;
 
     public Reservation() {
         super();
         this.passengers = new ArrayList<>();
-        this.itinerary = new ArrayList<>();
+        this.flights = new ArrayList<>();
     }
 
 }

@@ -29,31 +29,82 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
+			<!-- log4j2 -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-bom</artifactId>
+				<version>2.17.1</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<!-- Spring Webflux framework provides support for Monos, Fluxes, Reactive Netty server, and more -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<!-- Since Spring Boot uses log4j 1 by default, we have to get rid of
-				it. -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- Then we can grab log4j2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
-		<!-- Datastax Cassandra Driver -->
+		<!-- Spring AOP enables aspect-oriented programming in Spring applications. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!-- Spring Devtools auto-relaunches the application when classpath resources change. Requires configuration
+		on Intellij, and even then it seems to work a lot better on Eclipse. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Spring Boot Actuator: Gives us some restful endpoints for web application
+			metrics such as /health, /beans/, and /metrics -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Lombok reduces boilerplate code by generating getters, setters, constructors, and more. -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Spring Boot Test provides JUnit, SpringTest (Spring Boot Test), AssertJ, Hamcrest,
+			Mockito, JSONassert, and JSONPath. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Core dependency for the JUnit 5 testing framework. -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Reactor Test provides testing utilities for Reactor Core and Reactor Netty like StepVerifier. -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- DataStax Cassandra Driver is the core dependency for the Cassandra database. -->
 		<dependency>
 			<groupId>com.datastax.oss</groupId>
 			<artifactId>java-driver-core</artifactId>
+			<version>4.13.0</version>
 		</dependency>
 
 		<!-- AWS plugin for Cassandra authentication -->
@@ -63,70 +114,31 @@
 			<version>4.0.4</version>
 		</dependency>
 
-		<!-- AWS S3 SDK -->
+		<!-- Spring Data Cassandra -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-cassandra</artifactId>
+		</dependency>
+
+		<!-- AWS S3 SDK holds the client classes used for communicating with AWS Simple Storage Service (S3) -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>s3</artifactId>
 		</dependency>
 
+		<!-- OpenApi for Swagger -->
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-		</dependency>
-		<!-- Spring Web Flux is a Reactive Web Framework -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-ui</artifactId>
+			<version>1.5.12</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-
-		<!-- Dev Tools: DevTools are for ease of deployment. One of the primary 
-			tools Spring DevTools gives us is auto-server restart when it detects changes 
-			to the codebase. DevTools is autodisabled when packaged for production. -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
-		<!-- Spring Boot Actuator: Gives us some restful endpoints for web application 
-			metrics such as /health, /beans/, and /metrics -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<!-- provides you with JUnit, SpringTest (Spring Boot Test), AssertJ, Hamcrest, 
-			Mockito, JSONassert, and JSONPath. -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-cassandra</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!--End-to-End testing framework-->
+		<!-- Karate End-to-End testing framework-->
 		<dependency>
 			<groupId>com.intuit.karate</groupId>
 			<artifactId>karate-junit5</artifactId>
 			<version>1.1.0</version>
 			<scope>test</scope>
-		</dependency>
-
-		<!--Enable lombok-->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
 		</dependency>
     </dependencies>
 
