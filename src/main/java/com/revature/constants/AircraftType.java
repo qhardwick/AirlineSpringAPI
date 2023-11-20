@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public enum AircraftType implements Serializable {
 
-    // Q: What if I give these values arguments?
-
     BOEING737_700("737"),
     BOEING737_800("738"),
     BOEING737_900("739");

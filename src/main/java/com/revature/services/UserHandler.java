@@ -30,14 +30,14 @@ public class UserHandler {
     @Valid
     public Mono<ServerResponse> addUser(ServerRequest request) {
         Mono<User> userMono = request.bodyToMono(UserDto.class).map(UserDto::getUser);
-        return ServerResponse.created(URI.create("/airline/users")).body(userRepository.saveAll(userMono), UserDto.class);
+        return ServerResponse.status(HttpStatus.CREATED).body(userRepository.saveAll(userMono), UserDto.class);
     }
 
     // Find User by username:
     public Mono<ServerResponse> findByUsername(ServerRequest request) {
         String username = request.pathVariable("username");
-        Mono<UserDto> userDtoMono = userRepository.findById(username).map(UserDto::new);
-        return ServerResponse.ok().body(userDtoMono, UserDto.class)
+        return userRepository.findById(username).map(UserDto::new)
+                .flatMap(userDto -> ServerResponse.ok().body(Mono.just(userDto), UserDto.class))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
@@ -62,15 +62,12 @@ public class UserHandler {
     }
     
     // Update User:
-    // For the moment we're leaving open the possibility that the request will only contain some of the fields.
+    // For the moment we're leaving open the possibility that the request will only contain a partial User object.
     // TODO: Solve Validation issue:
     public Mono<ServerResponse> updateUser(ServerRequest request) {
-        String username = request.pathVariable("username");
-        Mono<User> userToUpdateMono = userRepository.findById(username);
+        Mono<User> userToUpdateMono = userRepository.findById(request.pathVariable("username"));
         Mono<UserDto> updatedInfoMono = request.bodyToMono(UserDto.class);
         return userToUpdateMono.zipWith(updatedInfoMono, (user, updatedInfo) -> {
-            System.out.println("User to update: " + user.toString());
-            System.out.println("Updated info: " + updatedInfo.toString());
             if(updatedInfo.getFirstName() != null) {
                 user.setFirstName(updatedInfo.getFirstName());
             }
@@ -93,7 +90,6 @@ public class UserHandler {
                 user.setReservations(updatedInfo.getReservations());
             }
 
-            System.out.println("Updated User: " + user.toString());
             return user;
         }).flatMap(updatedUser -> ServerResponse.ok().body(userRepository.save(updatedUser), UserDto.class))
                 .switchIfEmpty(ServerResponse.notFound().build());
@@ -101,8 +97,7 @@ public class UserHandler {
 
     // Delete User:
     public Mono<ServerResponse> deleteUser(ServerRequest request) {
-        String username = request.pathVariable("username");
-        Mono<User> userMono = userRepository.findById(username);
+        Mono<User> userMono = userRepository.findById(request.pathVariable("username"));
         return userMono.flatMap(user -> ServerResponse.noContent().build(userRepository.delete(user)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }

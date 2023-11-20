@@ -1,18 +1,13 @@
 package com.revature.dto;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.constants.AircraftType;
 import com.revature.beans.Flight;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.annotation.RegEx;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -41,17 +36,17 @@ public class FlightDto {
 
 	@NotEmpty
 	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
-	private String departureTime;
+	private LocalTime departureTime;
 
 	@NotEmpty
 	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
-	private String arrivalTime;
+	private LocalTime arrivalTime;
 
 	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
-	private String estimatedDepartureTime;
+	private LocalTime estimatedDepartureTime;
 
 	@Pattern(regexp = "([01]?[0-9]|2[0-3]):[0-5][0-9]")
-	private String estimatedArrivalTime;
+	private LocalTime estimatedArrivalTime;
 
 	@Min(0)
 	private int miles;
@@ -67,7 +62,7 @@ public class FlightDto {
 
 	private int businessAvailability;
 
-	private int mainAvailability;
+	private int mainCabinAvailability;
 
 	private Map<String, String> businessSeatMap;
 
@@ -77,17 +72,11 @@ public class FlightDto {
 	@Size(min = 3, max = 3)
 	private AircraftType aircraftType;
 
-	public FlightDto() {
+	public FlightDto(String airline, String origin, int flightNumber, String destination,
+			LocalTime departureTime, LocalTime arrivalTime, int miles, boolean international, int businessCapacity,
+			int mainCapacity, AircraftType aircraftType) {
 		super();
 		this.id = UUID.randomUUID();
-		this.businessSeatMap = new HashMap<>();
-		this.mainCabinSeatMap = new HashMap<>();
-	}
-
-	public FlightDto(String airline, String origin, int flightNumber, String destination,
-			String departureTime, String arrivalTime, int miles, boolean international, int businessCapacity,
-			int mainCapacity, AircraftType aircraftType) {
-		this();
 		this.airline = airline;
 		this.origin = origin;
 		this.flightNumber = flightNumber;
@@ -101,27 +90,29 @@ public class FlightDto {
 		this.businessCapacity = businessCapacity;
 		this.mainCapacity = mainCapacity;
 		this.businessAvailability = businessCapacity;
-		this.mainAvailability = mainCapacity;
+		this.mainCabinAvailability = mainCapacity;
+		this.businessSeatMap = new HashMap<>();
+		this.mainCabinSeatMap = new HashMap<>();
 		this.aircraftType = aircraftType;
 	}
 
 	public FlightDto(Flight flight) {
-		this();
+		super();
 		this.id = flight.getId();
 		this.airline = flight.getAirline();
 		this.origin = flight.getOrigin();
 		this.flightNumber = flight.getFlightNumber();
 		this.destination = flight.getDestination();
-		this.departureTime = flight.getDepartureTime().toString();
-		this.arrivalTime = flight.getArrivalTime().toString();
-		this.estimatedDepartureTime = flight.getEstimatedDepartureTime().toString();
-		this.estimatedArrivalTime = flight.getEstimatedArrivalTime().toString();
+		this.departureTime = flight.getDepartureTime();
+		this.arrivalTime = flight.getArrivalTime();
+		this.estimatedDepartureTime = flight.getEstimatedDepartureTime();
+		this.estimatedArrivalTime = flight.getEstimatedArrivalTime();
 		this.miles = flight.getMiles();
 		this.international = flight.isInternational();
 		this.businessCapacity = flight.getBusinessCapacity();
 		this.mainCapacity = flight.getMainCapacity();
 		this.businessAvailability = flight.getBusinessAvailability();
-		this.mainAvailability= flight.getMainCabinAvailability();
+		this.mainCabinAvailability = flight.getMainCabinAvailability();
 		this.businessSeatMap = flight.getBusinessSeatMap();
 		this.mainCabinSeatMap = flight.getMainCabinSeatMap();
 		this.aircraftType = flight.getAircraftType();
@@ -135,16 +126,16 @@ public class FlightDto {
 		flight.setOrigin(this.origin.toUpperCase());
 		flight.setFlightNumber(this.flightNumber);
 		flight.setDestination(this.destination.toUpperCase());
-		flight.setDepartureTime(LocalTime.parse(this.departureTime, DateTimeFormatter.ofPattern("HH:mm")));
-		flight.setArrivalTime(LocalTime.parse(this.arrivalTime, DateTimeFormatter.ofPattern("HH:mm")));
-		flight.setEstimatedDepartureTime(LocalTime.parse(this.estimatedDepartureTime, DateTimeFormatter.ofPattern("HH:mm")));
-		flight.setEstimatedArrivalTime(LocalTime.parse(this.estimatedArrivalTime, DateTimeFormatter.ofPattern("HH:mm")));
+		flight.setDepartureTime(this.departureTime);
+		flight.setArrivalTime(this.arrivalTime);
+		flight.setEstimatedDepartureTime(this.estimatedDepartureTime);
+		flight.setEstimatedArrivalTime(this.estimatedArrivalTime);
 		flight.setMiles(this.miles);
 		flight.setInternational(this.international);
 		flight.setBusinessCapacity(this.businessCapacity);
 		flight.setMainCapacity(this.mainCapacity);
 		flight.setBusinessAvailability(this.businessAvailability);
-		flight.setMainCabinAvailability(this.mainAvailability);
+		flight.setMainCabinAvailability(this.mainCabinAvailability);
 		flight.setBusinessSeatMap(this.businessSeatMap);
 		flight.setMainCabinSeatMap(this.mainCabinSeatMap);
 		flight.setAircraftType(this.aircraftType);

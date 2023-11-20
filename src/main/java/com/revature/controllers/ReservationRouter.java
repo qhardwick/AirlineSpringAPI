@@ -23,19 +23,16 @@ public class ReservationRouter {
         return RouterFunctions.route()
 
                 // Add new Reservation:
-                .POST("/reservations", request -> reservationHandler.addReservation(request))
-
-                // Find all Reservations:
-                .GET("/reservations", request -> reservationHandler.findAll(request))
+                .POST("/airline/reservations", request -> reservationHandler.addReservation(request))
 
                 // Find Reservation by PNR:
-                .GET("/reservations/{pnr}", request -> reservationHandler.findByPnr(request))
+                .GET("/airline/reservations/{pnr}", request -> reservationHandler.findByPnr(request))
 
                 // Update Reservation:
-                .PUT("/reservations/{pnr}", request -> reservationHandler.updateReservation(request))
+                .PUT("/airline/reservations/{pnr}", request -> reservationHandler.updateReservation(request))
 
                 // Delete Reservation:
-                .DELETE("/reservations/{pnr}", request -> reservationHandler.deleteReservation(request))
+                .DELETE("/airline/reservations/{pnr}", request -> reservationHandler.deleteReservation(request))
 
                 .build();
     }
