@@ -1,5 +1,6 @@
 package com.revature.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.beans.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,6 +54,7 @@ public class ReservationDto {
         this.seats = reservation.getSeats();
     }
 
+    @JsonIgnore
     public Reservation getReservation() {
         return new Reservation(this.PNR, this.passengers, this.flights, this.getSeats());
     }

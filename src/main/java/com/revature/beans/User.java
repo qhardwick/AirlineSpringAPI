@@ -20,7 +20,6 @@ public class User {
 	private String username;
 
 	@Column("first_name")
-	@NotEmpty
 	private String firstName;
 
 	@Column("last_name")

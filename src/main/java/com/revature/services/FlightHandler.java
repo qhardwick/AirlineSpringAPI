@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 @Service
 public class FlightHandler {
@@ -34,28 +33,29 @@ public class FlightHandler {
         return ServerResponse.status(HttpStatus.CREATED).body(flightRepository.saveAll(userMono), UserDto.class);
     }
 
-    // Find flight by UUID:
+    // Find flight by Flight Number, Origin, and Date:
     public Mono<ServerResponse> findById(ServerRequest request) {
-        UUID id = UUID.fromString(request.pathVariable("id"));
-        return flightRepository.findById(id).map(FlightDto::new)
-                .flatMap(flightDto -> ServerResponse.ok().body(Mono.just(flightDto), FlightDto.class))
-                .switchIfEmpty(ServerResponse.notFound().build());
+        return ServerResponse.ok().body(getFlightFromPath(request), FlightDto.class);
     }
 
-    // Find all Flights between an Origin and Destination
+    // Find all Flights between an Origin and Destination on a given date:
     public Mono<ServerResponse> findByOriginAndDestination(ServerRequest request) {
-        String origin = request.pathVariable("origin");
-        String destination = request.pathVariable("destination");
+        String origin = request.queryParam("origin").get().toUpperCase();
+        String destination = request.queryParam("destination").get().toUpperCase();
+        LocalDate departureDate = LocalDate.parse(request.queryParam("departureDate").get(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         return ServerResponse.ok().body(flightRepository.findAll()
-                        .filter(flight -> flight.getOrigin().equalsIgnoreCase(origin))
-                        .filter(flight -> flight.getDestination().equalsIgnoreCase(destination)), FlightDto.class);
+                .filter(flight -> flight.getOrigin().equalsIgnoreCase(origin))
+                .filter(flight -> flight.getDestination().equalsIgnoreCase(destination))
+                .filter(flight -> flight.getDepartureDate().equals(departureDate)), FlightDto.class);
     }
 
     // Update Flight:
     // Note: Some of these fields would likely require the creation of a new Flight object, but we'll include them here for now:
     public Mono<ServerResponse> updateFlight(ServerRequest request) {
-        Mono<Flight> flightToUpdateMono = flightRepository.findById(UUID.fromString(request.pathVariable("id")));
+        Mono<Flight> flightToUpdateMono = getFlightFromPath(request);
         Mono<FlightDto> updatedFlightMono = request.bodyToMono(FlightDto.class);
+
         return flightToUpdateMono.zipWith(updatedFlightMono, (flightToUpdate, updatedFlight) -> {
             if(updatedFlight.getAirline() != null) {
                 flightToUpdate.setAirline(updatedFlight.getAirline());
@@ -63,7 +63,7 @@ public class FlightHandler {
             if(updatedFlight.getOrigin() != null) {
                 flightToUpdate.setOrigin(updatedFlight.getOrigin());
             }
-            if(updatedFlight.getFlightNumber() != 0) {
+            if(updatedFlight.getFlightNumber() != null) {
                 flightToUpdate.setFlightNumber(updatedFlight.getFlightNumber());
             }
             if(updatedFlight.getDestination() != null) {
@@ -116,8 +116,21 @@ public class FlightHandler {
 
     // Delete Flight:
     public Mono<ServerResponse> deleteFlight(ServerRequest request) {
-        Mono<Flight> flightMono = flightRepository.findById(UUID.fromString(request.pathVariable("id")));
+        Mono<Flight> flightMono = getFlightFromPath(request);
         return flightMono.flatMap(flight -> ServerResponse.noContent().build(flightRepository.delete(flight)))
                 .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    // Utility method to get Flight from path due to 3-part primary key:
+    private Mono<Flight> getFlightFromPath(ServerRequest request) {
+        String flightNumber = request.pathVariable("flightNumber");
+        String origin = request.pathVariable("origin");
+        LocalDate departureDate = LocalDate.parse(request.pathVariable("departureDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        // Q: What would be the best way to reduce this Flux to a Mono?
+
+        return flightRepository.findAllByFlightNumberAndDepartureDate(flightNumber, departureDate)
+                .filter(flight -> flight.getOrigin().equalsIgnoreCase(origin))
+                .single();
     }
 }
